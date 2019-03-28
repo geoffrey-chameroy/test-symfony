@@ -12,9 +12,9 @@ use Doctrine\ORM\EntityManagerInterface;
  * @method Article           getNew()
  * @method Article|null      get(int $id, bool $check = true)
  * @method Article[]         getList()
- * @method Article           save(Article $user)
- * @method void              remove(Article $user)
- * @method void              checkEntity(?Article $user)
+ * @method Article           save(Article $article)
+ * @method void              remove(Article $article)
+ * @method void              checkEntity(?Article $article)
  */
 class ArticleManager extends AbstractEntityManager
 {
@@ -30,11 +30,8 @@ class ArticleManager extends AbstractEntityManager
      * @param Rate $rate
      * @return Article[]
      */
-    public function getFilteredList(Rate $rate): array
+    public function getFilteredList(?Rate $rate): array
     {
-        return $this->getRepository()
-            ->findBy([
-                'rate' => $rate
-            ]);
+        return $rate ? $this->getRepository()->findBy(['rate' => $rate]) : $this->getList();
     }
 }

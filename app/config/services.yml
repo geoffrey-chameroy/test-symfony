@@ -5,6 +5,10 @@ services:
         class: AppBundle\Manager\ArticleManager
         autowire: true
 
+    rate_manager:
+        class: AppBundle\Manager\RateManager
+        autowire: true
+
     rate_service:
         class: AppBundle\Service\RateService
         autowire: true

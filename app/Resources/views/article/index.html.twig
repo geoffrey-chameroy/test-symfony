@@ -1,36 +1,58 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Articles list</h1>
+    <section>
+        <div class="container">
+            <h1>Articles list</h1>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Label</th>
+                    <th>Description</th>
+                    <th>AmountHT</th>
+                    <th>Rate</th>
+                    <th>AmountTTC</th>
+                    <th>Creation</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for article in articles %}
+                    <tr>
+                        <td># {{ article.id }}</td>
+                        <td>{{ article.label }}</td>
+                        <td>{{ article.description }}</td>
+                        <td>{{ article.amountHT|number_format(2, '.', ' ') }} €</td>
+                        <td>{{ article.rate.rate }} %</td>
+                        <td>{{ article.amountHT|amountTTC(article.rate.rate)|number_format(2, '.', ' ') }} €</td>
+                        <td>{% if article.creation %}{{ article.creation|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-xs-8">
+                    <p>
+                        <a class="btn btn-primary" href="{{ path('article_new') }}">Create a new article</a>
+                    </p>
+                </div>
+                <div class="col-xs-4 text-right">
+                    <select id="filter" class="form-control">
+                        <option value="">All</option>
+                        {% for rate in rates %}
+                            <option value="{{ rate.id }}" {{ selectedRate == rate ? 'selected' : '' }}>Only rate {{ rate.id }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Label</th>
-                <th>Description</th>
-                <th>AmountHT</th>
-                <th>AmountTTC</th>
-                <th>Creation</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for article in articles %}
-            <tr>
-                <td>#{{ article.id }}</td>
-                <td>{{ article.label }}</td>
-                <td>{{ article.description }}</td>
-                <td>{{ article.amountHT }}</td>
-                <td>{{ article.amountHT|amountTTC(article.rate.rate) }}</td>
-                <td>{% if article.creation %}{{ article.creation|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('article_new') }}">Create a new article</a>
-        </li>
-    </ul>
+{% block javascripts %}
+    <script>
+        $('#filter').change(function() {
+            $(location).attr('href', "?filter=" + $(this).val());
+        });
+    </script>
 {% endblock %}

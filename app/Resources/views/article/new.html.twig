@@ -1,16 +1,41 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Article creation</h1>
-
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('article_index') }}">Back to the list</a>
-        </li>
-    </ul>
+    <section>
+        <div class="container">
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+            <h1>Article creation</h1>
+            <div class="form-group">
+                {{ form_label(form.label, 'Label', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                <div class="col-sm-10">
+                    {{ form_widget(form.label, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.description, 'Description', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                <div class="col-sm-10">
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.amountHT, 'Amount HT', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                <div class="col-sm-10">
+                    {{ form_widget(form.amountHT, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.rate, 'Rate', {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                <div class="col-sm-10">
+                    {{ form_widget(form.rate, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                    <input class="btn btn-primary" type="submit" value="Create" />
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </section>
 {% endblock %}

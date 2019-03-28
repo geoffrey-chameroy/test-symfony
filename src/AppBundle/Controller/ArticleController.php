@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Form\ArticleType;
 use AppBundle\Manager\ArticleManager;
+use AppBundle\Manager\RateManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -20,11 +21,19 @@ class ArticleController extends Controller
      */
     public function indexAction(Request $request)
     {
-        /** @var ArticleManager $manager */
-        $manager = $this->container->get('article_manager');
+        /** @var ArticleManager $articleManager */
+        $articleManager = $this->container->get('article_manager');
+
+        /** @var RateManager $rateManager */
+        $rateManager = $this->container->get('rate_manager');
+
+        $rate = $rateManager->get((int) $request->get('filter'), false);
+        $articles = $articleManager->getFilteredList($rate);
 
         return $this->render('article/index.html.twig', array(
-            'articles' => $manager->getList(),
+            'articles' => $articles,
+            'rates' => $rateManager->getList(),
+            'selectedRate' => $rate
         ));
     }
 
