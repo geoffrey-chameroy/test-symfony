@@ -1,0 +1,17 @@
+parameters:
+
+services:
+    article_manager:
+        class: AppBundle\Manager\ArticleManager
+        autowire: true
+
+    rate_service:
+        class: AppBundle\Service\RateService
+        autowire: true
+
+    app.twig_extension:
+        class: AppBundle\Twig\AppExtension
+        arguments: ['@rate_service']
+        public: false
+        tags:
+            - { name: twig.extension }

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Articles list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Label</th>
+                <th>Description</th>
+                <th>AmountHT</th>
+                <th>AmountTTC</th>
+                <th>Creation</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td>#{{ article.id }}</td>
+                <td>{{ article.label }}</td>
+                <td>{{ article.description }}</td>
+                <td>{{ article.amountHT }}</td>
+                <td>{{ article.amountHT|amountTTC(article.rate.rate) }}</td>
+                <td>{% if article.creation %}{{ article.creation|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('article_new') }}">Create a new article</a>
+        </li>
+    </ul>
+{% endblock %}
